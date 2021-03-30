@@ -16,12 +16,14 @@ const client = new MongoClient(uri, {
 });
 
 client.connect(err => {
+   console.log(err);
    const productCollection = client
       .db('eazyBazarDotCom')
       .collection('products');
 
    app.post('/addProducts', (req, res) => {
       const products = req.body;
+      console.log(products);
       productCollection.insertOne(products).then(result => {
          res.send(result.insertedCount > 0);
       });
