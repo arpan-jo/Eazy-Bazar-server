@@ -20,7 +20,7 @@ client.connect(err => {
       .db('eazyBazarDotCom')
       .collection('products');
 
-   app.post('addProducts', (req, res) => {
+   app.post('/addProducts', (req, res) => {
       const products = req.body;
       productCollection.insertOne(products).then(result => {
          res.send(result.insertedCount > 0);
