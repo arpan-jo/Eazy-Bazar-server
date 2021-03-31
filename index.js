@@ -28,7 +28,7 @@ client.connect(err => {
       });
    });
 
-   app.get('/orders/:id', (req, res) => {
+   app.get('/product/:id', (req, res) => {
       const id = req.params.id;
       console.log(id);
       productCollection.find({ _id: ObjectID(id) }).toArray((err, items) => {
@@ -38,7 +38,6 @@ client.connect(err => {
 
    app.post('/addProducts', (req, res) => {
       const products = req.body;
-      console.log(products);
       productCollection.insertOne(products).then(result => {
          res.send(result.insertedCount > 0);
       });
