@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.u4kcg.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+
 const client = new MongoClient(uri, {
    useNewUrlParser: true,
    useUnifiedTopology: true,
@@ -21,6 +22,9 @@ client.connect(err => {
    const productCollection = client
       .db('eazyBazarDotCom')
       .collection('products');
+   const orderCollection = client
+      .db('eazyBazarDotCom')
+      .collection('orderProducts');
 
    app.get('/products', (req, res) => {
       productCollection.find({}).toArray((err, items) => {
@@ -40,6 +44,13 @@ client.connect(err => {
       const products = req.body;
       productCollection.insertOne(products).then(result => {
          res.send(result.insertedCount > 0);
+      });
+   });
+
+   app.post('/orderAdd', (req, res) => {
+      const orderProducts = req.body;
+      orderCollection.insertOne(orderProducts).then(result => {
+         res.send(result.insertedCount > 1);
       });
    });
 });
