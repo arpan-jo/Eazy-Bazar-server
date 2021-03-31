@@ -21,7 +21,7 @@ client.connect(err => {
       .db('eazyBazarDotCom')
       .collection('products');
 
-   app.get('/home', (req, res) => {
+   app.get('/products', (req, res) => {
       productCollection.find({}).toArray((err, items) => {
          res.send(items);
       });
