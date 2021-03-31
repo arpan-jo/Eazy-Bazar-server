@@ -21,6 +21,12 @@ client.connect(err => {
       .db('eazyBazarDotCom')
       .collection('products');
 
+   app.get('/home', (req, res) => {
+      productCollection.find({}).toArray((err, items) => {
+         res.send(items);
+      });
+   });
+
    app.post('/addProducts', (req, res) => {
       const products = req.body;
       console.log(products);
