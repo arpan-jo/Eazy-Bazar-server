@@ -34,7 +34,6 @@ client.connect(err => {
 
    app.get('/product/:id', (req, res) => {
       const id = req.params.id;
-      console.log(id);
       productCollection.find({ _id: ObjectID(id) }).toArray((err, items) => {
          res.send(items);
       });
@@ -52,6 +51,20 @@ client.connect(err => {
       orderCollection.insertOne(orderProducts).then(result => {
          res.send(result.insertedCount > 1);
       });
+   });
+
+   app.get('/getOrder/:user', (req, res) => {
+      const user = req.params.user;
+      orderCollection.find({ email: user }).toArray((err, items) => {
+         res.send(items);
+      });
+   });
+
+   app.delete('/delete', (req, res) => {
+      const id = req.body._id;
+      productCollection
+         .findOneAndDelete({ _id: ObjectID(id) })
+         .then(result => console.log(result));
    });
 });
 
